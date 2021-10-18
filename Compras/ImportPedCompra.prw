@@ -55,10 +55,10 @@ Static Function TelaPrincipal()
         local nHeight       := 10 //Indica a altura em pixels do botão
     /*Finaliza Variaveis visuais*/
 
-    //Cria diálogo
+    //Cria dialogo (tela mãe principal, a partir dela vamos colocando os componentes, por exemplo o tbutton)
     Local oDialogo := MSDialog():New(nTop,nLeft,nBottom,nRight,cCaption,,,,,nClrText,nClrBack,,oWnd,lPixel,,,,lTransparent)
 
-    //Cria botoes
+    //Cria botoes (componentes filhos da tela mae oDialogo)
     Local oBotaoParametros      := TButton():New( nRow      ,nCol, "Parametros"        ,oDialogo, {||VerificaParametros()} , nWidth,nHeight,,,.F.,.T.,.F.,,.F.,,,.F. )
     Local oBotaoImportar        := TButton():New( nRow+20   ,nCol, "Importar Pedido"   ,oDialogo, {||LerCsv()}             , nWidth,nHeight,,,.F.,.T.,.F.,,.F.,,,.F. )
     Local oBotaoGeraTemplate    := TButton():New( nRow+40   ,nCol, "Gerar Template"    ,oDialogo, {||GeraTemplateCsv()}    , nWidth,nHeight,,,.F.,.T.,.F.,,.F.,,,.F. )
