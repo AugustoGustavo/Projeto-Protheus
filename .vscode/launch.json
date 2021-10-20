@@ -7,7 +7,7 @@
 			"name": "TOTVS Language Debug",
 			"program": "${command:AskForProgramName}",
 			"cwb": "${workspaceFolder}",
-			"smartclientBin": "C:\\Users\\gusta\\Documents\\Logos\\TOTVS_SmartCliente12127\\smartclient.exe",
+			"smartclientBin": "C:\\Users\\gusta\\Documents\\Logos\\TOTVS_SmartCliente12133\\smartclient.exe",
 			"isMultiSession": true,
 			"enableTableSync": true
 		}
@@ -22,6 +22,10 @@
 			"args": [],
 			"label": "SIGACFG",
 			"description": ""
+		},
+		{
+			"label": "SIGAADV",
+			"description": "<nil>"
 		}
 	],
 	"lastProgramExecuted": "SIGAADV"

@@ -77,7 +77,6 @@ Return Nil
 
     /*/
 Static Function VerificaParametros(oDialogoPrincipal)
-    //alert("funcao verificaParametros executada")
 
     /*Inicializa Variaveis visuais*/
         //Parametros do MSDIALOG:NEW()
@@ -99,11 +98,38 @@ Static Function VerificaParametros(oDialogoPrincipal)
     //Cria segundo dialogo sobre o principal, este sera menor e tera como componentes os TGet
     Local oDialogoParametros := MSDialog():New(nTop,nLeft,nBottom,nRight,cCaption,,,,,nClrText,nClrBack,,oDialogoPrincipal,lPixel,,,,lTransparent)
 
-    //abaixo cria os TGet para editar as variaveis que vao armazenar o conteudo informado pelo usuario
-    oTGetFornecedor := TGet():New( 01,01,{||_cFornecedor},oDialogoParametros,096,009,"@!",,0,,,.F.,,.T.,,.F.,,.F.,.F.,,.F.,.F.,,_cFornecedor,,,, )
-    oTGetFornecedor:lNoButton   := .F. //indica se mostra a botao de ajuda ao lado do campo, F para mostrar
-    oTGetFornecedor:cF3         := 'SA2' //indica a consulta padrao do campo
-    oTGetFornecedor:bHelp       := {|| ShowHelpCpo( 'Help', {' Codigo do fornecedor cadastrado no SA2 '}, 0 ) } //mostra help caso o usuario tecle F1
+    /*INICIO TGET criacao dos TGet para editar as variaveis que vao armazenar o conteudo informado pelo usuario*/
+
+        //INICIALIZA objetos para formar os parametros pro usuario
+        oTGetFornecedor := TGet():New( 01,01,{||_cFornecedor}  ,oDialogoParametros,096,009,"@!",,0,,,.F.,,.T.,,.F.,,.F.,.F.,,.F.,.F.,,_cFornecedor,,,, ) //campo Fornecedor
+        oTGetLoja       := TGet():New( 02,01,{||_cLoja}        ,oDialogoParametros,096,009,"@!",,0,,,.F.,,.T.,,.F.,,.F.,.F.,,.F.,.F.,,_cLoja,,,, ) //campo loja
+        oTGetCondPagto  := TGet():New( 03,01,{||_cCondicaoPgto},oDialogoParametros,096,009,"@!",,0,,,.F.,,.T.,,.F.,,.F.,.F.,,.F.,.F.,,_cCondicaoPgto,,,, ) //campo condicao de Pgto
+        oTGetTES        := TGet():New( 04,01,{||_cTes}         ,oDialogoParametros,096,009,"@!",,0,,,.F.,,.T.,,.F.,,.F.,.F.,,.F.,.F.,,_cTes,,,, ) //campo TES
+        oTGetArquivoCSV := TGet():New( 05,01,{||_cCaminhoCSV}  ,oDialogoParametros,096,009,"@!",,0,,,.F.,,.T.,,.F.,,.F.,.F.,,.F.,.F.,,_cCaminhoCSV,,,, ) //campo Caminho do CSV
+
+        //define propriedades do get p codigo do fornecedor
+        oTGetFornecedor:lNoButton   := .F. //indica se mostra a botao de ajuda ao lado do campo, F para mostrar
+        oTGetFornecedor:cF3         := 'SA2' //indica a consulta padrao do campo
+        oTGetFornecedor:bHelp       := {|| ShowHelpCpo( 'Help', {' Codigo do fornecedor cadastrado no SA2 '}, 0 ) } //mostra help caso o usuario tecle F1
+
+        //define propriedades do get p loja do fornecedor
+        oTGetLoja:bHelp       := {|| ShowHelpCpo( 'Help', {' Loja do fornecedor cadastrado no SA2 '}, 0 ) }     
+
+        //define propriedades do get p condicao de pagamento        
+        oTGetCondPagto:lNoButton   := .F. //indica se mostra a botao de ajuda ao lado do campo, F para mostrar
+        oTGetCondPagto:cF3         := 'SE4' //indica a consulta padrao do campo
+        oTGetCondPagto:bHelp       := {|| ShowHelpCpo( 'Help', {' Codigo da condicao de pagamento '}, 0 ) } 
+
+        //define propriedades do get p TES        
+        oTGetTES:lNoButton   := .F. 
+        oTGetTES:cF3         := 'SF4' 
+        oTGetTES:bHelp       := {|| ShowHelpCpo( 'Help', {' Codigo do TES '}, 0 ) } 
+
+        //define propriedades do get p o caminho do arquivo csv        
+        oTGetArquivoCSV:lNoButton   := .F. 
+        oTGetArquivoCSV:cF3         := 'SE4' 
+        oTGetArquivoCSV:bHelp       := {|| ShowHelpCpo( 'Help', {' Caminho do arquivo csv '}, 0 ) } 
+    /*FIM TGET*/
 
     // Ativa dialogo de parametros centralizado
     oDialogoParametros:Activate( , , , lCentered, bValid, , bInit)
