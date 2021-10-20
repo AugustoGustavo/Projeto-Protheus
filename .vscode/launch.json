@@ -26,6 +26,14 @@
 		{
 			"label": "SIGAADV",
 			"description": "<nil>"
+		},
+		{
+			"label": "SIGACFG",
+			"description": "<nil>"
+		},
+		{
+			"label": "SIGAAD",
+			"description": "<nil>"
 		}
 	],
 	"lastProgramExecuted": "SIGAADV"

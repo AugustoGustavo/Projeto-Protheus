@@ -12,12 +12,12 @@ User Function ImportPedCompra()
     //variaveis que serao utilizadas durante a execucao de todo programa
     //o _ e o private identifica que elas sao acessadas na user function e nas static function tambem de movo privado, somente esse programa pode usa-las
     private _aItens         := {} //vai armazenar os itens que foram lidos do arquivo csv importado
-    private _cTes           := "" //armazena o tes que sera utilizado nos itens do pedido
-    private _cFornecedor    := "" //vai armazenar o codigo do fornecedor
-    private _cLoja          := "" //vai armazenar a loja do fornecedor 
-    private _cCondicaoPgto  := "" //vai armazenar a condicao de pagamento que sera atribuida ao pedido
-    private _cNumeroPedido  := "" //vai armazenar o numero do pedido se assim o usuario preencher
-    private _cCaminhoCSV    := "" //vai armazenar o caminho do arquivo 
+    private _cTes           := SPACE(FWTamSX3("F4_CODIGO")[1]) //adiciona espacop em branco na variavel que ira armazena o tes que sera utilizado nos itens do pedido
+    private _cFornecedor    := SPACE(FWTamSX3("A2_COD")[1]) //adiciona espacop em branco na variavel que ira armazenar o codigo do fornecedor
+    private _cLoja          := SPACE(FWTamSX3("A2_LOJA")[1]) //adiciona espacop em branco na variavel que ira armazenar a loja do fornecedor 
+    private _cCondicaoPgto  := SPACE(FWTamSX3("E4_CODIGO")[1]) //adiciona espacop em branco na variavel que ira armazenar a condicao de pagamento que sera atribuida ao pedido
+    private _cNumeroPedido  := SPACE(FWTamSX3("C7_NUM")[1]) //adiciona espacop em branco na variavel que ira armazenar o numero do pedido se assim o usuario preencher
+    private _cCaminhoCSV    := SPACE(30) //adiciona espacop em branco na variavel que ira armazenar o caminho do arquivo 
 
     TelaPrincipal() //chama a tela principal de interacao com o usuario
 
@@ -82,8 +82,8 @@ Static Function VerificaParametros(oDialogoPrincipal)
         //Parametros do MSDIALOG:NEW()
         local nTop          := 50 //Indica a coordenada vertical superior em pixels ou caracteres.
         local nLeft         := 50 //Indica a coordenada horizontal esquerda em pixels ou caracteres.
-        local nBottom       := 200 //Indica a coordenada vertical inferior em pixels ou caracteres.
-        local nRight        := 500 //Indica a coordenada horizontal direita em pixels ou caracteres.
+        local nBottom       := 270 //Indica a coordenada vertical inferior em pixels ou caracteres.
+        local nRight        := 310//Indica a coordenada horizontal direita em pixels ou caracteres.
         local cCaption      := "Parametros da importacao" //Indica o título da janela.
         local nClrText      := CLR_BLACK //Indica a cor do texto.
         local nClrBack      := CLR_WHITE //Indica a cor de fundo.
@@ -101,11 +101,11 @@ Static Function VerificaParametros(oDialogoPrincipal)
     /*INICIO TGET criacao dos TGet para editar as variaveis que vao armazenar o conteudo informado pelo usuario*/
 
         //INICIALIZA objetos para formar os parametros pro usuario
-        oTGetFornecedor := TGet():New( 01,01,{||_cFornecedor}  ,oDialogoParametros,096,009,"@!",,0,,,.F.,,.T.,,.F.,,.F.,.F.,,.F.,.F.,,_cFornecedor,,,, ) //campo Fornecedor
-        oTGetLoja       := TGet():New( 02,01,{||_cLoja}        ,oDialogoParametros,096,009,"@!",,0,,,.F.,,.T.,,.F.,,.F.,.F.,,.F.,.F.,,_cLoja,,,, ) //campo loja
-        oTGetCondPagto  := TGet():New( 03,01,{||_cCondicaoPgto},oDialogoParametros,096,009,"@!",,0,,,.F.,,.T.,,.F.,,.F.,.F.,,.F.,.F.,,_cCondicaoPgto,,,, ) //campo condicao de Pgto
-        oTGetTES        := TGet():New( 04,01,{||_cTes}         ,oDialogoParametros,096,009,"@!",,0,,,.F.,,.T.,,.F.,,.F.,.F.,,.F.,.F.,,_cTes,,,, ) //campo TES
-        oTGetArquivoCSV := TGet():New( 05,01,{||_cCaminhoCSV}  ,oDialogoParametros,096,009,"@!",,0,,,.F.,,.T.,,.F.,,.F.,.F.,,.F.,.F.,,_cCaminhoCSV,,,, ) //campo Caminho do CSV
+        oTGetFornecedor := TGet():New( 01,10,{||_cFornecedor}  ,oDialogoParametros,096,009,X3PICTURE("A2_COD")      ,,0,,,/*12*/,,.T.,,.F.,,.F.,.F.,,.F.,.F.,/*23*/,_cFornecedor  ,,,/*27*/,,,/*30*/,"Codigo do fornecedor"  ,1,,,,, ) //campo Fornecedor
+        oTGetLoja       := TGet():New( 20,10,{||_cLoja}        ,oDialogoParametros,096,009,X3PICTURE("A2_LOJA")     ,,0,,,/*12*/,,.T.,,.F.,,.F.,.F.,,.F.,.F.,/*23*/,_cLoja        ,,,/*27*/,,,/*30*/,"Loja do fornecedor"    ,1,,,,, ) //campo loja
+        oTGetCondPagto  := TGet():New( 40,10,{||_cCondicaoPgto},oDialogoParametros,096,009,X3PICTURE("E4_CODIGO")   ,,0,,,/*12*/,,.T.,,.F.,,.F.,.F.,,.F.,.F.,/*23*/,_cCondicaoPgto,,,/*27*/,,,/*30*/,"Condicao de Pagto"     ,1,,,,, ) //campo condicao de Pgto
+        oTGetTES        := TGet():New( 60,10,{||_cTes}         ,oDialogoParametros,096,009,X3PICTURE("F4_CODIGO")   ,,0,,,/*12*/,,.T.,,.F.,,.F.,.F.,,.F.,.F.,/*23*/,_cTes         ,,,/*27*/,,,/*30*/,"TES"                   ,1,,,,, ) //campo TES
+        oTGetArquivoCSV := TGet():New( 80,10,{||_cCaminhoCSV}  ,oDialogoParametros,096,009,"@!"                     ,,0,,,/*12*/,,.T.,,.F.,,.F.,.F.,,.F.,.F.,/*23*/,_cCaminhoCSV  ,,,/*27*/,,,/*30*/,"Arquivo CSV"           ,1,,,,, ) //campo Caminho do CSV
 
         //define propriedades do get p codigo do fornecedor
         oTGetFornecedor:lNoButton   := .F. //indica se mostra a botao de ajuda ao lado do campo, F para mostrar
