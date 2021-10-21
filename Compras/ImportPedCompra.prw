@@ -46,8 +46,8 @@ Static Function TelaPrincipal()
         local lTransparent  := .F. //Se .T. permitira que a Dialog receba um fundo transparente
         //Parametros do MSDIALOG:Activate()
         local lCentered     := .T. //Indica se a janela será (.T.) ou não (.F.) centralizada. O padrão é falso (.F.).
-        local bValid        := {||msgstop('validou D.Mae'),.T.} //Indica se o conteúdo do diálogo é válido. Se o retorno for falso (.F.), o diálogo não será fechado quando a finalização for solicitada
-        local bInit         := {||msgstop('iniciando Dialogo mae...')} //Indica o bloco de código que será executado quando o diálogo iniciar a exibição
+        local bValid        := {||} //Indica se o conteúdo do diálogo é válido. Se o retorno for falso (.F.), o diálogo não será fechado quando a finalização for solicitada
+        local bInit         := {||} //Indica o bloco de código que será executado quando o diálogo iniciar a exibição
         //Parametros compartilhados entre Componentes TButton()
         local nRow          := 002 //Indica a coordenada vertical em pixels ou caracteres
         local nCol          := 002 //Indica a coordenada horizontal em pixels ou caracteres
@@ -59,9 +59,9 @@ Static Function TelaPrincipal()
     Local oDialogoPrincipal := MSDialog():New(nTop,nLeft,nBottom,nRight,cCaption,,,,,nClrText,nClrBack,,oWnd,lPixel,,,,lTransparent)
 
     //Cria botoes (componentes filhos da tela mae oDialogo)
-    Local oBotaoParametros      := TButton():New( nRow      ,nCol, "Parametros"        ,oDialogoPrincipal, {||VerificaParametros(oDialogoPrincipal)} , nWidth,nHeight,,,.F.,.T.,.F.,,.F.,,,.F. )
-    Local oBotaoImportar        := TButton():New( nRow+20   ,nCol, "Importar Pedido"   ,oDialogoPrincipal, {||LerCsv()}             , nWidth,nHeight,,,.F.,.T.,.F.,,.F.,,,.F. )
-    Local oBotaoGeraTemplate    := TButton():New( nRow+40   ,nCol, "Gerar Template"    ,oDialogoPrincipal, {||GeraTemplateCsv()}    , nWidth,nHeight,,,.F.,.T.,.F.,,.F.,,,.F. )
+    oBotaoParametros      := TButton():New( nRow      ,nCol, "Parametros"        ,oDialogoPrincipal, {||VerificaParametros(oDialogoPrincipal)} , nWidth,nHeight,,,.F.,.T.,.F.,,.F.,,,.F. )
+    oBotaoImportar        := TButton():New( nRow+20   ,nCol, "Importar Pedido"   ,oDialogoPrincipal, {||LerCsv()}             , nWidth,nHeight,,,.F.,.T.,.F.,,.F.,,,.F. )
+    oBotaoGeraTemplate    := TButton():New( nRow+40   ,nCol, "Gerar Template"    ,oDialogoPrincipal, {||GeraTemplateCsv()}    , nWidth,nHeight,,,.F.,.T.,.F.,,.F.,,,.F. )
     
     // Ativa dialogo centralizado
     oDialogoPrincipal:Activate( , , , lCentered, bValid, , bInit)
@@ -82,7 +82,7 @@ Static Function VerificaParametros(oDialogoPrincipal)
         //Parametros do MSDIALOG:NEW()
         local nTop          := 50 //Indica a coordenada vertical superior em pixels ou caracteres.
         local nLeft         := 50 //Indica a coordenada horizontal esquerda em pixels ou caracteres.
-        local nBottom       := 270 //Indica a coordenada vertical inferior em pixels ou caracteres.
+        local nBottom       := 280 //Indica a coordenada vertical inferior em pixels ou caracteres.
         local nRight        := 310//Indica a coordenada horizontal direita em pixels ou caracteres.
         local cCaption      := "Parametros da importacao" //Indica o título da janela.
         local nClrText      := CLR_BLACK //Indica a cor do texto.
@@ -91,8 +91,8 @@ Static Function VerificaParametros(oDialogoPrincipal)
         local lTransparent  := .F. //Se .T. permitira que a Dialog receba um fundo transparente
         //Parametros do MSDIALOG:Activate()
         local lCentered     := .T. //Indica se a janela será (.T.) ou não (.F.) centralizada. O padrão é falso (.F.).
-        local bValid        := {||msgstop('validou D. Filho'),.T.} //Indica se o conteúdo do diálogo é válido. Se o retorno for falso (.F.), o diálogo não será fechado quando a finalização for solicitada
-        local bInit         := {||msgstop('iniciando Dialogo filho...')} //Indica o bloco de código que será executado quando o diálogo iniciar a exibição
+        local bValid        := {||} //Indica se o conteúdo do diálogo é válido. Se o retorno for falso (.F.), o diálogo não será fechado quando a finalização for solicitada
+        local bInit         := {||} //Indica o bloco de código que será executado quando o diálogo iniciar a exibição
     /**/
 
     //Cria segundo dialogo sobre o principal, este sera menor e tera como componentes os TGet
@@ -101,11 +101,11 @@ Static Function VerificaParametros(oDialogoPrincipal)
     /*INICIO TGET criacao dos TGet para editar as variaveis que vao armazenar o conteudo informado pelo usuario*/
 
         //INICIALIZA objetos para formar os parametros pro usuario
-        oTGetFornecedor := TGet():New( 01,10,{||_cFornecedor}  ,oDialogoParametros,096,009,X3PICTURE("A2_COD")      ,,0,,,/*12*/,,.T.,,.F.,,.F.,.F.,,.F.,.F.,/*23*/,_cFornecedor  ,,,/*27*/,,,/*30*/,"Codigo do fornecedor"  ,1,,,,, ) //campo Fornecedor
-        oTGetLoja       := TGet():New( 20,10,{||_cLoja}        ,oDialogoParametros,096,009,X3PICTURE("A2_LOJA")     ,,0,,,/*12*/,,.T.,,.F.,,.F.,.F.,,.F.,.F.,/*23*/,_cLoja        ,,,/*27*/,,,/*30*/,"Loja do fornecedor"    ,1,,,,, ) //campo loja
-        oTGetCondPagto  := TGet():New( 40,10,{||_cCondicaoPgto},oDialogoParametros,096,009,X3PICTURE("E4_CODIGO")   ,,0,,,/*12*/,,.T.,,.F.,,.F.,.F.,,.F.,.F.,/*23*/,_cCondicaoPgto,,,/*27*/,,,/*30*/,"Condicao de Pagto"     ,1,,,,, ) //campo condicao de Pgto
-        oTGetTES        := TGet():New( 60,10,{||_cTes}         ,oDialogoParametros,096,009,X3PICTURE("F4_CODIGO")   ,,0,,,/*12*/,,.T.,,.F.,,.F.,.F.,,.F.,.F.,/*23*/,_cTes         ,,,/*27*/,,,/*30*/,"TES"                   ,1,,,,, ) //campo TES
-        oTGetArquivoCSV := TGet():New( 80,10,{||_cCaminhoCSV}  ,oDialogoParametros,096,009,"@!"                     ,,0,,,/*12*/,,.T.,,.F.,,.F.,.F.,,.F.,.F.,/*23*/,_cCaminhoCSV  ,,,/*27*/,,,/*30*/,"Arquivo CSV"           ,1,,,,, ) //campo Caminho do CSV
+        oTGetFornecedor := TGet():New( 01,10,{| u | If( PCount() == 0, _cFornecedor, _cFornecedor := u )}       ,oDialogoParametros,096,009,X3PICTURE("A2_COD")      ,,0,,,/*12*/,,.T.,,.F.,,.F.,.F.,,.F.,.F.,/*23*/,_cFornecedor  ,,,/*27*/,,,/*30*/,"Codigo do fornecedor"  ,1,,,,, ) //campo Fornecedor
+        oTGetLoja       := TGet():New( 20,10,{| u | If( PCount() == 0, _cLoja, _cLoja := u )}                   ,oDialogoParametros,096,009,X3PICTURE("A2_LOJA")     ,,0,,,/*12*/,,.T.,,.F.,,.F.,.F.,,.F.,.F.,/*23*/,_cLoja        ,,,/*27*/,,,/*30*/,"Loja do fornecedor"    ,1,,,,, ) //campo loja
+        oTGetCondPagto  := TGet():New( 40,10,{| u | If( PCount() == 0, _cCondicaoPgto, _cCondicaoPgto := u )}   ,oDialogoParametros,096,009,X3PICTURE("E4_CODIGO")   ,,0,,,/*12*/,,.T.,,.F.,,.F.,.F.,,.F.,.F.,/*23*/,_cCondicaoPgto,,,/*27*/,,,/*30*/,"Condicao de Pagto"     ,1,,,,, ) //campo condicao de Pgto
+        oTGetTES        := TGet():New( 60,10,{| u | If( PCount() == 0, _cTes, _cTes := u )}                     ,oDialogoParametros,096,009,X3PICTURE("F4_CODIGO")   ,,0,,,/*12*/,,.T.,,.F.,,.F.,.F.,,.F.,.F.,/*23*/,_cTes         ,,,/*27*/,,,/*30*/,"TES"                   ,1,,,,, ) //campo TES
+        oTGetArquivoCSV := TGet():New( 80,10,{| u | If( PCount() == 0, _cCaminhoCSV, _cCaminhoCSV := u )}       ,oDialogoParametros,096,009,"@!"                     ,,0,,,/*12*/,,.T.,,.F.,,.F.,.F.,,.F.,.F.,/*23*/,_cCaminhoCSV  ,,,/*27*/,,,/*30*/,"Arquivo CSV"           ,1,,,,, ) //campo Caminho do CSV
 
         //define propriedades do get p codigo do fornecedor
         oTGetFornecedor:lNoButton   := .F. //indica se mostra a botao de ajuda ao lado do campo, F para mostrar
@@ -122,14 +122,17 @@ Static Function VerificaParametros(oDialogoPrincipal)
 
         //define propriedades do get p TES        
         oTGetTES:lNoButton   := .F. 
-        oTGetTES:cF3         := 'SF4' 
+        oTGetTES:cF3         := 'SF4TES' 
         oTGetTES:bHelp       := {|| ShowHelpCpo( 'Help', {' Codigo do TES '}, 0 ) } 
 
         //define propriedades do get p o caminho do arquivo csv        
-        oTGetArquivoCSV:lNoButton   := .F. 
-        oTGetArquivoCSV:cF3         := 'SE4' 
         oTGetArquivoCSV:bHelp       := {|| ShowHelpCpo( 'Help', {' Caminho do arquivo csv '}, 0 ) } 
     /*FIM TGET*/
+
+    //cria tbutton que permite o usuario buscar arquivo csv e alimentar a _cCaminhoCSV e dar um refresh no oTGetArquivoCSV
+    oBotaoBuscarArquivo := TButton():New( 88, 106, "Buscar"     ,oDialogoParametros, {|| _cCaminhoCSV := BuscaArquivo() , oTGetArquivoCSV:CtrlRefresh()}    , 022,009,,,.F.,.T.,.F.,,.F.,,,.F. )
+    //cria botao Ok e valida operacao
+    oBotaoOk            := TButton():New( 105, 50, "Ok"         ,oDialogoParametros, {||oDialogoParametros:end()}    , 020,009,,,.F.,.T.,.F.,,.F.,,,.F. )
 
     // Ativa dialogo de parametros centralizado
     oDialogoParametros:Activate( , , , lCentered, bValid, , bInit)
@@ -179,4 +182,16 @@ Return nil
 Static Function GeraTemplateCsv()
     alert("funcao GeraTemplateCsv executada")
 Return nil
-    
+
+/*/{Protheus.doc} BuscaArquivo
+    (Descricao)
+    @type Function
+    @author Gustavo Jesus
+    @since 20/10/2021
+    @version 12.1.27
+/*/
+Static Function BuscaArquivo()
+    local cDiretorioTemp := getTempPath()
+    local cDiretorioArquivo := tFileDialog( "All CSV files (*.csv) ",'Selecao de Arquivos',, cDiretorioTemp, .F.,  )
+
+Return alltrim(cDiretorioArquivo)
