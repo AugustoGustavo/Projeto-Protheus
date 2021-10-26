@@ -29,7 +29,7 @@ Return Nil
 /*/{Protheus.doc} Static Function TelaPrincipal
     (descricao)
     @type  Function
-    @author Gustavo Jesus
+    @author Gustavo , Tiago e Renan
     @since 15/10/2021
     @version 0.0.1
     /*/
@@ -41,24 +41,24 @@ Static Function TelaPrincipal()
         local nLeft         := 180 //Indica a coordenada horizontal esquerda em pixels ou caracteres.
         local nBottom       := 550 //Indica a coordenada vertical inferior em pixels ou caracteres.
         local nRight        := 700 //Indica a coordenada horizontal direita em pixels ou caracteres.
-        local cCaption      := "Importação de Pedido" //Indica o título da janela.
+        local cCaption      := "Importaï¿½ï¿½o de Pedido" //Indica o tï¿½tulo da janela.
         local nClrText      := CLR_BLACK //Indica a cor do texto.
         local nClrBack      := CLR_WHITE //Indica a cor de fundo.
-        local oWnd          := NIL //Indica a janela mãe (principal) da janela que será criada. O padrão é a janela principal do programa.
+        local oWnd          := NIL //Indica a janela mï¿½e (principal) da janela que serï¿½ criada. O padrï¿½o ï¿½ a janela principal do programa.
         local lPixel        := .T. //Indica se considera as coordenadas passadas em pixels (.T.) ou caracteres (.F.)
         local lTransparent  := .F. //Se .T. permitira que a Dialog receba um fundo transparente
         //Parametros do MSDIALOG:Activate()
-        local lCentered     := .T. //Indica se a janela será (.T.) ou não (.F.) centralizada. O padrão é falso (.F.).
-        local bValid        := {||} //Indica se o conteúdo do diálogo é válido. Se o retorno for falso (.F.), o diálogo não será fechado quando a finalização for solicitada
-        local bInit         := {||} //Indica o bloco de código que será executado quando o diálogo iniciar a exibição
+        local lCentered     := .T. //Indica se a janela serï¿½ (.T.) ou nï¿½o (.F.) centralizada. O padrï¿½o ï¿½ falso (.F.).
+        local bValid        := {||} //Indica se o conteï¿½do do diï¿½logo ï¿½ vï¿½lido. Se o retorno for falso (.F.), o diï¿½logo nï¿½o serï¿½ fechado quando a finalizaï¿½ï¿½o for solicitada
+        local bInit         := {||} //Indica o bloco de cï¿½digo que serï¿½ executado quando o diï¿½logo iniciar a exibiï¿½ï¿½o
         //Parametros compartilhados entre Componentes TButton()
         local nRow          := 002 //Indica a coordenada vertical em pixels ou caracteres
         local nCol          := 002 //Indica a coordenada horizontal em pixels ou caracteres
-        local nWidth        := 40 //Indica a largura em pixels do botão.
-        local nHeight       := 10 //Indica a altura em pixels do botão
+        local nWidth        := 40 //Indica a largura em pixels do botï¿½o.
+        local nHeight       := 10 //Indica a altura em pixels do botï¿½o
     /*Finaliza Variaveis visuais*/
 
-    //Cria dialogo (tela mãe principal, a partir dela vamos colocando os componentes, por exemplo o tbutton)
+    //Cria dialogo (tela mï¿½e principal, a partir dela vamos colocando os componentes, por exemplo o tbutton)
     Local oDialogoPrincipal := MSDialog():New(nTop,nLeft,nBottom,nRight,cCaption,,,,,nClrText,nClrBack,,oWnd,lPixel,,,,lTransparent)
 
     //Cria botoes (componentes filhos da tela mae oDialogo)
@@ -87,15 +87,15 @@ Static Function VerificaParametros(oDialogoPrincipal)
         local nLeft         := 50 //Indica a coordenada horizontal esquerda em pixels ou caracteres.
         local nBottom       := 310 //Indica a coordenada vertical inferior em pixels ou caracteres.
         local nRight        := 310//Indica a coordenada horizontal direita em pixels ou caracteres.
-        local cCaption      := "Parametros da importacao" //Indica o título da janela.
+        local cCaption      := "Parametros da importacao" //Indica o tï¿½tulo da janela.
         local nClrText      := CLR_BLACK //Indica a cor do texto.
         local nClrBack      := CLR_WHITE //Indica a cor de fundo.
         local lPixel        := .T. //Indica se considera as coordenadas passadas em pixels (.T.) ou caracteres (.F.)
         local lTransparent  := .F. //Se .T. permitira que a Dialog receba um fundo transparente
         //Parametros do MSDIALOG:Activate()
-        local lCentered     := .T. //Indica se a janela será (.T.) ou não (.F.) centralizada. O padrão é falso (.F.).
-        local bValid        := {||} //Indica se o conteúdo do diálogo é válido. Se o retorno for falso (.F.), o diálogo não será fechado quando a finalização for solicitada
-        local bInit         := {||} //Indica o bloco de código que será executado quando o diálogo iniciar a exibição
+        local lCentered     := .T. //Indica se a janela serï¿½ (.T.) ou nï¿½o (.F.) centralizada. O padrï¿½o ï¿½ falso (.F.).
+        local bValid        := {||} //Indica se o conteï¿½do do diï¿½logo ï¿½ vï¿½lido. Se o retorno for falso (.F.), o diï¿½logo nï¿½o serï¿½ fechado quando a finalizaï¿½ï¿½o for solicitada
+        local bInit         := {||} //Indica o bloco de cï¿½digo que serï¿½ executado quando o diï¿½logo iniciar a exibiï¿½ï¿½o
     /**/
 
     //Cria segundo dialogo sobre o principal, este sera menor e tera como componentes os TGet
