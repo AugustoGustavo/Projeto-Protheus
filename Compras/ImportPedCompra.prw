@@ -30,7 +30,7 @@ Return Nil
     (descricao)
     @type  Function
     @author Gustavo , Tiago e Renan
-    @since 15/10/2021
+    @since 16/10/2021
     @version 0.0.1
     /*/
 Static Function TelaPrincipal()
