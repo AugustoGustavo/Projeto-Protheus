@@ -29,7 +29,7 @@ Return Nil
 /*/{Protheus.doc} Static Function TelaPrincipal
     (descricao)
     @type  Function
-    @author Gustavo , Tiago e Renan
+    @author Gustavo , Tiago e Renan.
     @since 15/10/2021
     @version 0.0.1
     /*/
