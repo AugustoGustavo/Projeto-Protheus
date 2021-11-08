@@ -41,24 +41,24 @@ Static Function TelaPrincipal()
         local nLeft         := 180 //Indica a coordenada horizontal esquerda em pixels ou caracteres.
         local nBottom       := 550 //Indica a coordenada vertical inferior em pixels ou caracteres.
         local nRight        := 700 //Indica a coordenada horizontal direita em pixels ou caracteres.
-        local cCaption      := "Importa��o de Pedido" //Indica o t�tulo da janela.
+        local cCaption      := "Importacao de Pedido" //Indica o t�tulo da janela.
         local nClrText      := CLR_BLACK //Indica a cor do texto.
         local nClrBack      := CLR_WHITE //Indica a cor de fundo.
         local oWnd          := NIL //Indica a janela m�e (principal) da janela que ser� criada. O padr�o � a janela principal do programa.
         local lPixel        := .T. //Indica se considera as coordenadas passadas em pixels (.T.) ou caracteres (.F.)
         local lTransparent  := .F. //Se .T. permitira que a Dialog receba um fundo transparente
         //Parametros do MSDIALOG:Activate()
-        local lCentered     := .T. //Indica se a janela ser� (.T.) ou n�o (.F.) centralizada. O padr�o � falso (.F.).
-        local bValid        := {||} //Indica se o conte�do do di�logo � v�lido. Se o retorno for falso (.F.), o di�logo n�o ser� fechado quando a finaliza��o for solicitada
-        local bInit         := {||} //Indica o bloco de c�digo que ser� executado quando o di�logo iniciar a exibi��o
+        local lCentered     := .T. //Indica se a janela sera (.T.) ou nao (.F.) centralizada. O padrao e falso (.F.).
+        local bValid        := {||} //Indica se o conteudo do dialogo e valido. Se o retorno for falso (.F.), o dialogo nao sera fechado quando a finalizacao for solicitada
+        local bInit         := {||} //Indica o bloco de codigo que sera executado quando o dialogo iniciar a exibicao
         //Parametros compartilhados entre Componentes TButton()
         local nRow          := 002 //Indica a coordenada vertical em pixels ou caracteres
         local nCol          := 002 //Indica a coordenada horizontal em pixels ou caracteres
-        local nWidth        := 40 //Indica a largura em pixels do bot�o.
-        local nHeight       := 10 //Indica a altura em pixels do bot�o
+        local nWidth        := 40 //Indica a largura em pixels do botao.
+        local nHeight       := 10 //Indica a altura em pixels do botao
     /*Finaliza Variaveis visuais*/
 
-    //Cria dialogo (tela m�e principal, a partir dela vamos colocando os componentes, por exemplo o tbutton)
+    //Cria dialogo (tela mae principal, a partir dela vamos colocando os componentes, por exemplo o tbutton)
     Local oDialogoPrincipal := MSDialog():New(nTop,nLeft,nBottom,nRight,cCaption,,,,,nClrText,nClrBack,,oWnd,lPixel,,,,lTransparent)
 
     //Cria botoes (componentes filhos da tela mae oDialogo)
@@ -155,33 +155,39 @@ Return nil
     /*/
 Static Function LerCsv()
 
-    Local cLinha        := "" 
-    Local nLinhas       := 0
-    Local nContador     := 0 //contador de loop
-    Local nPosicaoini   := 0 //guardara a posicao inicial de uma substring de uma variavel string
-    Local nPosicaoFim   := 0 //guardara a posicao final de uma substring de uma variavel string
+    Local nLinhas       := 0 //variavel auxiliar para gaurdar a quantidade de linhas do arquivo
+    Local aNomeColunas  := {} //Array auxiliar para pegar o nome das colunas que estao na primeira linha do arquivo
+    Local nQtdColunas   := 0 //variavel contadora auxiliar que deve contar a quantidade de colunas da primeira linha 
+    Local nContador     := 0 //contador de loop para ser usado no For
     Local nManipulador  := FT_FUse( _cCaminhoCSV ) //aponta no arquivo e o abre para manipula-lo
-    
 
     IF nManipulador <> -1 //se o manipulador conseguiu abrir o arquivo, entao executa comandos abaixo
 
-        FT_FGoTop()
-        nLinhas := FT_FLastRec()
+        FT_FGoTop() //posiciona na primeira linha
+        nLinhas := FT_FLastRec() //retorna a quantida de linhas do arquivo
 
-        for nContador := 1 to nLinhas
+        for nContador := 1 to nLinhas //inicia o for ate chegar no final da linha
 
-            If nLinhas == 1
-                cLinha      := FT_FReadLn()
-            EndIf
+            If nLinhas == 1 //caso seja primeira linha, entende-se que e o nome das colunas entao executa comandos abaixo
+                aNomeColunas    := StrTokArr( FT_FREADLN( ) , ";" ) //monta array de elemntos sendo os nomes das colunas separadas por ;
+                nQtdColunas     := Len( aNomeColunas ) //conta quantas colunas deram
 
-            cLinha      := FT_FReadLn()
-            nPosicaoFim := At( ";" , cLinha , nPosicaoini)
+                for nContador := 1 to nQtdColunas //inicia lop ate terminas a quantidade de colunas 
+                    Aadd( _aItens , aNomeColunas[nContador] ) //a cada coluna, adiciona-a como elemento index do array de itens ou seja o titulo da coluna e dps vamos colocar o conteudo
+                next
+
+                nContador   := 1 //volta o contador a 1
+                
+                FT_FSKIP() //pula primeira linha pois entende-se que e o nome das colunas
+            Else
+                //implementar aqui o codigo para pegar os itens do arquivo
+            EndIF
 
             FT_FSKIP()
             
         next
 
-        FT_FUSE()
+        FT_FUse() //fecha arquivo
 
     ELSE //se o manipulador nao conseguiu abrir o arquivo, executa comandos abaixo
         MsgAlert("Nao foi possivel abrir o arquivo CSV")
