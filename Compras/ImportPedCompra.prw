@@ -154,7 +154,40 @@ Return nil
     @version 0.0.1
     /*/
 Static Function LerCsv()
-    alert("funcao LerCsv executada")
+
+    Local cLinha        := "" 
+    Local nLinhas       := 0
+    Local nContador     := 0 //contador de loop
+    Local nPosicaoini   := 0 //guardara a posicao inicial de uma substring de uma variavel string
+    Local nPosicaoFim   := 0 //guardara a posicao final de uma substring de uma variavel string
+    Local nManipulador  := FT_FUse( _cCaminhoCSV ) //aponta no arquivo e o abre para manipula-lo
+    
+
+    IF nManipulador <> -1 //se o manipulador conseguiu abrir o arquivo, entao executa comandos abaixo
+
+        FT_FGoTop()
+        nLinhas := FT_FLastRec()
+
+        for nContador := 1 to nLinhas
+
+            If nLinhas == 1
+                cLinha      := FT_FReadLn()
+            EndIf
+
+            cLinha      := FT_FReadLn()
+            nPosicaoFim := At( ";" , cLinha , nPosicaoini)
+
+            FT_FSKIP()
+            
+        next
+
+        FT_FUSE()
+
+    ELSE //se o manipulador nao conseguiu abrir o arquivo, executa comandos abaixo
+        MsgAlert("Nao foi possivel abrir o arquivo CSV")
+        ConOut( "Erro ao ler CSV - FERROR " + str(FError(),4) ) //envia o erro para o console log
+    ENDIF
+
 Return nil
 
 /*/{Protheus.doc} GravaPedido
@@ -205,7 +238,7 @@ Static Function MostraErro()
 Return nil
 
 /*/{Protheus.doc} GeraTemplateCsv
-    (descricao)
+    Gera o template do arquivo csv para ser usado como base pro usuario 
     @type  Function
     @author Gustavo Jesus
     @since 15/10/2021
@@ -213,22 +246,17 @@ Return nil
     /*/
 Static Function GeraTemplateCsv()
     
-    Local cDiretorioTemp    := getTempPath()
-    Local cNomeArquivo      := "templateImpPedido.csv"
-    Local aCamposSc7        := {}
-    //Local nHandle           := 0
-    Local nContador         := 0
-    Local cCamposSc7        := ""
+    Local cDiretorioTemp    := getTempPath() //obtem o diretorio temporario do sistema operacional
+    Local cNomeArquivo      := "templateImpPedido.csv" //nome do arquivo que sera gravado no diretorio temp
+    Local aCamposSc7        := {} //array que deve conter os campos para o cabecalho do arquivo template
+    Local nContador         := 0 //variavel para controle de loop
+    Local cCamposSc7        := "" //sera usado para converter o array de campos em string
 
-    Aadd(aCamposSc7,"C7_NUM")
-    Aadd(aCamposSc7,"C7_COND")
-    Aadd(aCamposSc7,"C7_FILENT")
-    aadd(aCamposSc7,"C7_ITEM")
-    aAdd(aCamposSc7,"C7_PRODUTO")
-    aadd(aCamposSc7,"C7_QUANT")
-    aAdd(aCamposSc7,"C7_PRECO")
-    aAdd(aCamposSc7,"C7_TES")
-    aadd(aCamposSc7,"C7_DATPRF")
+    aadd(aCamposSc7,"C7_ITEM") //add campo ao array numero do item do pedido
+    aAdd(aCamposSc7,"C7_PRODUTO") //add campo ao array codigo do produto
+    aadd(aCamposSc7,"C7_QUANT") //add campo ao array quantidade do produto
+    aAdd(aCamposSc7,"C7_PRECO") //add campo ao array preco unitario do produto
+    aadd(aCamposSc7,"C7_DATPRF") //add campo ao array data para entrega
 
     If File( cDiretorioTemp + cNomeArquivo )
         if FErase( cDiretorioTemp + cNomeArquivo ) == -1
@@ -238,7 +266,7 @@ Static Function GeraTemplateCsv()
 
     for nContador := 1 to Len(aCamposSc7)
        
-        if( nContador < Len(aCamposSc7) .and. AllTrim(cCamposSc7)<>"" , cCamposSc7 += ";" , )
+        if( nContador <= Len(aCamposSc7) .and. AllTrim(cCamposSc7)<>"" , cCamposSc7 += ";" , )
         cCamposSc7 += aCamposSc7[nContador]
 
     next
@@ -251,39 +279,6 @@ Static Function GeraTemplateCsv()
 
     cCamposSc7 := "" 
     nContador := 0
-
-
-    /*
-    C7_FILIAL
-    C7_ITEM
-    C7_PRODUTO
-    C7_QUANT
-    C7_PRECO
-    C7_TOTAL
-    C7_IPI
-    C7_LOCAL
-    C7_DATPRF
-    C7_FORNECE
-    C7_LOJA
-    C7_CC
-    C7_COND
-    C7_FILENT
-    C7_EMISSAO
-    C7_NUM
-    C7_DESCRI
-    C7_VALIPI
-    C7_BASEIPI
-    C7_VALICM
-    C7_PICM
-    C7_BASEICM
-    C7_TES
-    C7_BASIMP5
-    C7_BASIMP6
-    C7_VALIMP5
-    C7_VALIMP6
-    C7_VALIMP5
-    C7_VALIMP6
-    */
 
 Return nil
 
